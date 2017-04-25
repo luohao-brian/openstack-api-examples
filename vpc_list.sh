@@ -1,8 +1,8 @@
 #!/bin/bash
 
 PROJECT_ID='c75709169d574f08b403ffc439a4e8e1'
-NAME='hwcloud5967'
-PASSWD='Huawei@123'
+NAME=''
+PASSWD=''
 
 TOKEN_BODY='{
   "auth": {
