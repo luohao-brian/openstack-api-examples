@@ -88,6 +88,8 @@ def curl_get_function(b, url, token):
     c.perform()
     c.close()
     return b.getvalue()
+
+
 def curl_delete_function(b, url, header=[]):
     default_header = ['Content-Type: application/json']
     header_list = default_header + header
@@ -177,8 +179,7 @@ def excute_vm_volume_attach(token, project, volume_id, server_id, device):
     return body_inf
 
 
-def sshclient_execmd(hostname, port, username, password, execmd):  
-    #paramiko.util.log_to_file("paramiko.log")  
+def sshclient_execmd(hostname, port, username, password, execmd):   
     s = paramiko.SSHClient()  
     s.set_missing_host_key_policy(paramiko.AutoAddPolicy())  
     s.connect(hostname=hostname, port=port, username=username, password=password)  
@@ -195,7 +196,7 @@ if __name__ == "__main__":
     #print "project_id:{0}".format(project_id)
 
     print "step2: stop vm"
-    #excute_vm_stop(token, project_id)
+    excute_vm_stop(token, project_id)
 
     print "step3: get vm system volume id"
     inf = get_vm_volume_attachment(token, project_id)
