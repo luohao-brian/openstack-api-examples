@@ -1,6 +1,31 @@
 #!/usr/bin/bash
 
-TOKEN=`curl -s -i -X POST http://controller:35357/v3/auth/tokens -H "Content-type: application/json" -d '{"auth": {"identity": {"methods": ["password"], "password": {"user": {"name": "admin", "domain": {"name": "default"}, "password": "redhat"}}}}}' | grep "X-Subject-Token" | awk '{print $2}'`
+AUTH_PARAMS='{
+    "auth": {
+        "identity": {
+            "methods": ["password"], 
+            "password": {
+                "user": {
+                    "name": "admin", 
+                    "password": "redhat",
+                    "domain": {
+                        "name": "default"
+                    }
+                }
+            }
+        },
+        "scope": {
+            "project": {
+                "name": "admin",
+                "domain": {
+                    "name": "default"
+                 }
+            }
+        }
+    }
+}'
+
+TOKEN=`curl -s -i -X POST http://controller:35357/v3/auth/tokens -H "Content-type: application/json" -d "$AUTH_PARAMS" | grep "X-Subject-Token" | awk '{print $2}'`
 
 echo
 echo $TOKEN
