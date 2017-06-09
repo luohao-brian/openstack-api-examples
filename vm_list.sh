@@ -1,7 +1,7 @@
 #!/bin/bash
 
-NAME=''
-PASSWD=''
+HEC_USER_NAME=''
+HEC_USER_PASSWD=''
 
 TOKEN_BODY='{
   "auth": {
@@ -11,10 +11,10 @@ TOKEN_BODY='{
       ],
       "password": {
         "user": {
-          "name": '"\"$NAME\""',
-          "password": '"\"$PASSWD\""',
+          "name": '"\"$HEC_USER_NAME\""',
+          "password": '"\"$HEC_USER_PASSWD\""',
           "domain": {
-            "name": '"\"$NAME\""'
+            "name": '"\"$HEC_USER_NAME\""'
           }
         }
       }
