@@ -14,7 +14,7 @@ NAME = ''
 PASSWD = ''
 CHANGE_PASSWD = ''
 
-TOKEN_BODY = {
+AUTH_PARAMS = {
   "auth": {
     "identity": {
       "methods": [
@@ -130,7 +130,7 @@ def get_token_information():
     b = StringIO.StringIO()
     head = StringIO.StringIO()
     url = 'https://iam.cn-north-1.myhwclouds.com/v3/auth/tokens'
-    head_inf, body_inf = curl_post_function(b, head, url, str(TOKEN_BODY))
+    head_inf, body_inf = curl_post_function(b, head, url, str(AUTH_PARAMS))
     b.close()
     head.close()
     token = get_token(head_inf)
