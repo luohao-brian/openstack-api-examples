@@ -3,7 +3,7 @@
 NAME=''
 PASSWD=''
 
-TOKEN_BODY='{
+TOKEN_AUTH_PARAMS='{
   "auth": {
     "identity": {
       "methods": [
@@ -27,10 +27,10 @@ TOKEN_BODY='{
   }
 }'
 
-TOKEN=`curl -i -X POST   https://iam.cn-north-1.myhwclouds.com/v3/auth/tokens  -H 'content-type: application/json'   -d "$TOKEN_BODY" | grep "X-Subject-Token"| awk '{print$2}'`
-PROJECT_ID=`curl -X POST   https://iam.cn-north-1.myhwclouds.com/v3/auth/tokens  -H 'content-type: application/json'   -d "$TOKEN_BODY"| python -mjson.tool| grep -A 3 project| grep id|awk -F "\"" '{print $4}'`
+TOKEN=`curl -i -X POST   https://iam.cn-north-1.myhwclouds.com/v3/auth/tokens  -H 'content-type: application/json'   -d "$TOKEN_AUTH_PARAMS" | grep "X-Subject-Token"| awk '{print$2}'`
+PROJECT_ID=`curl -X POST   https://iam.cn-north-1.myhwclouds.com/v3/auth/tokens  -H 'content-type: application/json'   -d "$TOKEN_AUTH_PARAMS"| python -mjson.tool| grep -A 3 project| grep id|awk -F "\"" '{print $4}'`
 
-CREATE_VM_BODY='{
+CREATE_VM_PARAMS='{
     "server": {
         "availability_zone": "cn-north-1b",
         "name": "newserver",
@@ -49,4 +49,4 @@ CREATE_VM_BODY='{
     }
 }'
 
-curl -i -X POST https://ecs.cn-north-1.myhwclouds.com/v1/${PROJECT_ID}/cloudservers -H "X-Auth-Token:${TOKEN}" -d "$CREATE_VM_BODY"
+curl -i -X POST https://ecs.cn-north-1.myhwclouds.com/v1/${PROJECT_ID}/cloudservers -H "X-Auth-Token:${TOKEN}" -d "$CREATE_VM_PARAMS"
