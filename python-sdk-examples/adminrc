@@ -1,4 +1,4 @@
-export OS_USERNAME=hwcloud5967
-export OS_PASSWORD=Huawei@123
-export OS_AUTH_URL=https://iam.cn-north-1.myhwclouds.com/v3
-export OS_TENANT_NAME=cn-north-1
+export OS_USERNAME=
+export OS_PASSWORD=
+export OS_AUTH_URL=
+export OS_TENANT_NAME=
