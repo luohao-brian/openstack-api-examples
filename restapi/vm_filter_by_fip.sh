@@ -48,9 +48,25 @@ curl -i -X POST ${HEC_IAM_ENDPOINT}/v3/auth/tokens -H 'content-type: application
     curl -s -X GET ${HEC_VPC_ENDPOINT}/v2.0/floatingips -H "X-Auth-Token:${TOKEN}" | python -mjson.tool
 
     # Retrieve mapping between floating(public) ips and fixed(internal) ips
-    FLOATING_IPS=`curl -s -X GET ${HEC_VPC_ENDPOINT}/v2.0/floatingips -H "X-Auth-Token:${TOKEN}" | python -c 'import json,sys; print "\n".join([x["fixed_ip_address"] for x in json.load(sys.stdin)["floatingips"]])'`
-    for IP in $FLOATING_IPS; do
-        # Filter host by internal ip
-        curl -s -X GET ${HEC_ECS_ENDPOINT}/v2/${PROJECT_ID}/servers/detail?ip=$IP -H "X-Auth-Token:${TOKEN}" | python -mjson.tool
+    IPS_MAPPING=`curl -s -X GET ${HEC_VPC_ENDPOINT}/v2.0/floatingips -H "X-Auth-Token:${TOKEN}" | python -c 'import json,sys; print "\n".join([x["fixed_ip_address"]+":"+x["floating_ip_address"] for x in json.load(sys.stdin)["floatingips"]])'`
+    for MAPPING in $IPS_MAPPING; do
+        # Annotate accessIPv4 attr to vm instance 
+        FIXED_IP=`echo $MAPPING | awk -F ':' '{print $1}'`
+        FLOAT_IP=`echo $MAPPING | awk -F ':' '{print $2}'`
+        SERVER_ID=`curl -s -X GET ${HEC_ECS_ENDPOINT}/v2/${PROJECT_ID}/servers/detail?ip=$FIXED_IP -H "X-Auth-Token:${TOKEN}" | python -c 'import json,sys;print json.load(sys.stdin)["servers"][0]["id"]'`
+        SERVER_PARAMS='{
+            "server": {
+                "accessIPv4": '"\"$FLOAT_IP\""'
+            }
+        }'
+        curl -s -X PUT ${HEC_ECS_ENDPOINT}/v2/${PROJECT_ID}/servers/$SERVER_ID -d "$SERVER_PARAMS" -H "X-Auth-Token:${TOKEN}" | python -mjson.tool
     done
+
+    echo
+    echo
+    echo "============================"
+    echo
+    echo
+    # Retrieve all vms, which should have floating ip included.
+    curl -s -X GET ${HEC_ECS_ENDPOINT}/v2/${PROJECT_ID}/servers/detail -H "X-Auth-Token:${TOKEN}" | python -mjson.tool
 }
