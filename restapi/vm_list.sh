@@ -1,15 +1,16 @@
 #!/bin/bash
 
 # 华为云账号，不是email
-HEC_USER_NAME='YOUR_HEC_USERNAME'
+HEC_USER_NAME=''
 # 华为云密码
-HEC_USER_PASSWD='YOUR_HEC_PASSWORD'
+HEC_USER_PASSWD=''
 
 # Region&Endpoints, 
 # 具体定义请参考:http://developer.hwclouds.com/endpoint.html
 HEC_REGION='cn-north-1'
 HEC_IAM_ENDPOINT='https://iam.cn-north-1.myhwclouds.com'
 HEC_ECS_ENDPOINT='https://ecs.cn-north-1.myhwclouds.com'
+HEC_VPC_ENDPOINT='https://ecs.cn-north-1.myhwclouds.com'
 
 AUTH_PARAMS='{
   "auth": {
@@ -35,12 +36,12 @@ AUTH_PARAMS='{
   }
 }'
 
-curl -s -i -X POST ${HEC_IAM_ENDPOINT}/v3/auth/tokens -H 'content-type: application/json' -d "$AUTH_PARAMS" > /tmp/hec_auth_res && {
+curl -i -X POST ${HEC_IAM_ENDPOINT}/v3/auth/tokens -H 'content-type: application/json' -d "$AUTH_PARAMS" > /tmp/hec_auth_res && {
     TOKEN=`cat /tmp/hec_auth_res | grep "X-Subject-Token"| awk '{print$2}'`
     echo "HEC Token is: $TOKEN"
 
     PROJECT_ID=`tail -n 1 /tmp/hec_auth_res|python -c 'import json,sys;print json.load(sys.stdin)["token"]["project"]["id"]'`
     echo "HEC Project ID is: $PROJECT_ID"
 
-    curl -i -X GET ${HEC_ECS_ENDPOINT}/v2/${PROJECT_ID}/servers -H "X-Auth-Token:${TOKEN}"
+    curl -s -X GET ${HEC_ECS_ENDPOINT}/v2/${PROJECT_ID}/servers/detail -H "X-Auth-Token:${TOKEN}" | python -mjson.tool
 }
