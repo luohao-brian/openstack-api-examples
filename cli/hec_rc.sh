@@ -1,0 +1,10 @@
+#!/bin/bash
+
+export OS_PROJECT_DOMAIN_NAME=USERNAME
+export OS_USER_DOMAIN_NAME=USERNAME
+export OS_PROJECT_NAME=cn-north-1
+export OS_USERNAME=USERNAME
+export OS_PASSWORD=PASSWORD
+export OS_AUTH_URL=https://iam.cn-north-1.myhwclouds.com/v3
+export OS_IDENTITY_API_VERSION=3
+export OS_IMAGE_API_VERSION=2

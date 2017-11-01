@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # 华为云账号，不是email
-HEC_USER_NAME=''
+HEC_USER_NAME='USERNAME'
 # 华为云密码
-HEC_USER_PASSWD=''
+HEC_USER_PASSWD='PASSWORD'
 
 # Region&Endpoints, 
 # 具体定义请参考:http://developer.hwclouds.com/endpoint.html

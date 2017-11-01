@@ -5,12 +5,15 @@ from keystoneauth1 import session
 from novaclient import client
 
 auth = v3.Password(
-    	username='HEC_USER_NAME',
-    	password='HEC_USER_PASSWD',
+    	username='USERNAME',
+    	password='PASSWORD',
     	auth_url='https://iam.cn-north-1.myhwclouds.com/v3',
-    	user_domain_name='HEC_USER_NAME',
-    	project_domain_name='HEC_USER_NAME'
+    	user_domain_name='hwcloud5967',
+    	project_domain_name='hwcloud5967',
+        project_name='cn-north-1'
 )
-sess = session.Session(auth=auth, verify=False)
-nova = client.Client("2.1", session=sess)
-print nova.servers.list()
+sess = session.Session(auth=auth, verify=True)
+print sess.get_endpoint(service_type='compute',interface='public')
+
+novacli = client.Client("2.1", session=sess)
+print novacli.servers.list()
