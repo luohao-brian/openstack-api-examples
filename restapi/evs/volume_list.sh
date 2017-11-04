@@ -38,5 +38,5 @@ curl -i -X POST ${HEC_IAM_ENDPOINT}/v3/auth/tokens -H 'content-type: application
 	PROJECT_ID=`tail -n 1 /tmp/hec_auth_res|python -c 'import json,sys;print json.load(sys.stdin)["token"]["project"]["id"]'`
     echo "HEC Project ID is: $PROJECT_ID"
 	
-	curl -i -X GET ${HEC_EVS_ENDPOINT}/v1/${PROJECT_ID}/volumes?limit=100 -H "X-Auth-Token:${TOKEN}" -k
+	curl -i -X GET ${HEC_EVS_ENDPOINT}/v2/${PROJECT_ID}/cloudvolumes?limit=100 -H "X-Auth-Token:${TOKEN}" -k
 } 
