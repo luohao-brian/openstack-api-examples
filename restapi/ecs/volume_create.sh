@@ -1,9 +1,10 @@
 #!/bin/bash
 
-# 华为云账号，不是email
-HEC_USER_NAME='USERNAME'
-# 华为云密码
-HEC_USER_PASSWD='PASSWORD'
+HEC_USER_NAME='hwcloud5967'
+HEC_USER_PASSWD='Here2go$'
+
+#SERVER_ID='26314918-0858-4cb1-9c08-eb5a161adf77'
+#VOLUME_ID='60d21d3c-ee94-4e70-bf4c-2edb94a5304c'
 
 # Region&Endpoints, 
 # 具体定义请参考:http://developer.hwclouds.com/endpoint.html
@@ -36,13 +37,36 @@ AUTH_PARAMS='{
   }
 }'
 
+
 curl -i -X POST ${HEC_IAM_ENDPOINT}/v3/auth/tokens -H 'content-type: application/json' -d "$AUTH_PARAMS" > /tmp/hec_auth_res && {
     TOKEN=`cat /tmp/hec_auth_res | grep "X-Subject-Token"| awk '{print$2}'`
-    echo "HEC Token is: $TOKEN"
 
     PROJECT_ID=`tail -n 1 /tmp/hec_auth_res|python -c 'import json,sys;print json.load(sys.stdin)["token"]["project"]["id"]'`
-    echo "HEC Project ID is: $PROJECT_ID"
+ 
 
-    curl -i -X GET https://vpc.cn-north-1.myhwclouds.com/v1/${PROJECT_ID}/vpcs -H "X-Auth-Token:${TOKEN}"
+    CREATE_VOLUME_PARAMS='{
+    "volume": {
+        "availability_zone": "cn-north-1a",
+        "display_description": "description",
+        "size": 40,
+        "snapshot_id": null,
+        "display_name": "newsvolume",
+        "volumetype": "SATA",
+        "metadata": {"meta":"test"},
+        "status":"createing",
+        "user_id": null,
+        "name": "volume-test",
+        "multiattach": false,
+        "attach_status":"detached",
+        "consistencygroup_id": null,
+        "source_volid":null,
+        "shareable":false,
+        "source_replica":null
+    }
+  }'
+   
+    curl -i -X POST https://ecs.cn-north-1.myhwclouds.com/v2/${PROJECT_ID}/os-volumes -H "X-Auth-Token:${TOKEN}" -d "$CREATE_VOLUME_PARAMS" 
 }
+
+
 
