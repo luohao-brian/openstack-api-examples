@@ -64,7 +64,7 @@ CREATE_VOLUME_PARAMS='{
                 } 
 	}'
 
-        curl -i -X POST ${HEC_CINDER_ENDPOINT}/v1/${curr_projectId}/volumes \
+        curl -i -X POST ${HEC_CINDER_ENDPOINT}/v2/${curr_projectId}/cloudvolumes \
         -H "content-type: application/json" \
         -H "X-Auth-Token: ${curr_token}" \
         -d "$CREATE_VOLUME_PARAMS" -k
