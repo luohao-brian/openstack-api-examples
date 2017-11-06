@@ -1,11 +1,33 @@
 # Configure the OpenStack Provider
 provider "openstack" {
-  user_name   = ""
+  user_name   = "hwcloud5967"
   tenant_name = "cn-north-1"
-  domain_name = ""
-  password    = ""
+  domain_name = "hwcloud5967"
+  password    = "Here2go$"
   auth_url    = "https://iam.cn-north-1.myhwclouds.com/v3"
   region      = "cn-north-1"
+}
+
+# Create VPC
+resource "openstack_networking_network_v2" "network_1" {
+  name           = "network_1"
+  admin_state_up = "true"
+}
+
+resource "openstack_networking_subnet_v2" "subnet_1" {
+  name       = "subnet_1"
+  network_id = "${openstack_networking_network_v2.network_1.id}"
+  cidr       = "10.10.10.0/24"
+  ip_version = 4
+}
+
+resource "openstack_networking_router_v2" "router_1"{
+  name = "router_1"
+}
+
+resource "openstack_networking_router_interface_v2" "router_interface_1"{
+  subnet_id = "${openstack_networking_subnet_v2.subnet_1.id}"
+  router_id = "${openstack_networking_router_v2.router_1.id}"
 }
 
 # Create security group
@@ -29,8 +51,9 @@ resource "openstack_compute_instance_v2" "instance" {
   security_groups = ["${openstack_compute_secgroup_v2.secgroup_1.name}"]
   availability_zone = "cn-north-1a"
   network = {
-    uuid = "d292bc29-524d-4034-b080-a7aa39d83e60"
+    uuid = "${openstack_networking_network_v2.network_1.id}"
   }
+  depends_on = ["openstack_networking_router_interface_v2.router_interface_1"]
 }
 
 # Create Volume
