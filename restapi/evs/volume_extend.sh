@@ -48,7 +48,7 @@ echo -e "\033[0m"
                 "os-extend": {"new_size": "'${ARG_NEWSIZE}'"} 
         }'
         
-	curl -i -X POST ${HEC_EVS_ENDPOINT}/v1/${curr_projectId}/volumes/${ARG_VOLUMEID}/action \
+	curl -i -X POST ${HEC_EVS_ENDPOINT}/v2/${curr_projectId}/cloudvolumes/${ARG_VOLUMEID}/action \
         -H "content-type: application/json" \
         -H "X-Auth-Token: ${curr_token}" \
 	-d "$EXTEND_VOLUME_PARAMS" \
