@@ -55,6 +55,10 @@ do
             ;;
     esac
 done
+if [ "$ARG_SNAPID" = "" ];then
+    echo "parameter snapshot_id missed."
+    exit 1
+fi
 
 echo -e "\033[33m"
 echo "   create volume by snapshot :   name=${ARG_NAME}   count=${ARG_COUNT}   availability_zone=${ARG_AZ}   size=${ARG_SIZE}   volume_type=${ARG_VT}   snapshot_id=${ARG_SNAPID}  "
@@ -74,7 +78,7 @@ echo -e "\033[0m"
          } 
         }'
 echo "$SNAP_CREATE_VOLUME_PARAMS"
-        curl -i -X POST ${HEC_EVS_ENDPOINT}/v1/${curr_projectId}/volumes \
+        curl -i -X POST ${HEC_EVS_ENDPOINT}/v2/${curr_projectId}/cloudvolumes \
         -H "content-type: application/json" \
         -H "X-Auth-Token: ${curr_token}" \
         -d "$SNAP_CREATE_VOLUME_PARAMS" -k
