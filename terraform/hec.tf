@@ -3,7 +3,7 @@ provider "openstack" {
   user_name   = "hwcloud5967"
   tenant_name = "cn-north-1"
   domain_name = "hwcloud5967"
-  password    = "Here2go$"
+  password    = ""
   auth_url    = "https://iam.cn-north-1.myhwclouds.com/v3"
   region      = "cn-north-1"
 }
