@@ -23,7 +23,7 @@ fi
 
 ARG_NAME="volume-test"
 ARG_COUNT="1"
-ARG_AZ="kvmxen.dc1"
+ARG_AZ="cn-north-1a"
 ARG_SIZE="120"
 ARG_VT="SATA"
 ARG_SNAPID=""
