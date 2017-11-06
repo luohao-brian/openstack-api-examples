@@ -21,7 +21,7 @@ fi
 
 ARG_NAME="volume-test"
 ARG_COUNT="1"
-ARG_AZ="kvmxen.dc1"
+ARG_AZ="cn-north-1a"
 ARG_SIZE="10"
 ARG_VT="SATA"
 
@@ -64,7 +64,8 @@ CREATE_VOLUME_PARAMS='{
                 } 
 	}'
 
-        curl -i -X POST ${HEC_CINDER_ENDPOINT}/v2/${curr_projectId}/cloudvolumes \
+        curl -i -X POST ${HEC_EVS_ENDPOINT}/v2/${curr_projectId}/cloudvolumes \
+
         -H "content-type: application/json" \
         -H "X-Auth-Token: ${curr_token}" \
         -d "$CREATE_VOLUME_PARAMS" -k

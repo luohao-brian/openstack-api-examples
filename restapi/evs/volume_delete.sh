@@ -39,7 +39,7 @@ echo -e "\033[33m"
 echo "   delete volume :  volume_id=${ARG_VOLUMEID}  "
 echo -e "\033[0m"
 
-        curl -i -X DELETE ${HEC_EVS_ENDPOINT}/v1/${curr_projectId}/volumes/${ARG_VOLUMEID} \
+        curl -i -X DELETE ${HEC_EVS_ENDPOINT}/v2/${curr_projectId}/cloudvolumes/${ARG_VOLUMEID} \
         -H "content-type: application/json" \
         -H "X-Auth-Token: ${curr_token}" \
         -k
